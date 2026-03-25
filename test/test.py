@@ -1,49 +1,28 @@
-import sys
 import time
-from importlib.resources import files
 from pathlib import Path
 
 import rawpy
 from PIL import Image  # pillow
-from rich.console import Console
-from rich.markdown import Markdown
 
 avr_time = []
-name_rec_dir = "unedit"  # name for folder of new pictures
+# Ordner des Scripts
+script_dir = Path("test_data/")  # Pfad zum Ordner in dem sich alles befindet
+name_rec_dir = "/unedit/"  # des des Unterordners, indem die convertierten Bilder gespeichert werden
+print("Verzeichnis: ", str(script_dir))
 
 
 def main():
-    if len(sys.argv) > 1:  # wurde überhaupt ein Argument übergeben
-        #################################################### erzeugt --help -h als Ersatz fuer man page in Terminal
-        if str(sys.argv[1]) == "-h" or str(sys.argv[1]) == "--help":
-            console = Console()
-            with files("raw_to_jpg").joinpath("README.en.md").open() as f:
-                md = Markdown(f.read())
-            console.print(md)
-            exit()
-        ####################################################
-        print(sys.argv)
-        script_dir = Path(sys.argv[1])  # sys.argv -> 0= BEfehl Name, 1=flag den du zu Befehl übergibst
-    else:
-        script_dir = Path(".")  # path zu Ort des commands
-    # Ordner des Scripts
-    print("Verzeichnis: ", str(script_dir))
 
-    nef = count_files(script_dir)
-    if nef > 0:
-        inp = str(input("want to proceed [Y/n]: "))
-        if inp.lower() == "n" or inp.lower() == "no":
-            print("exit")
-            exit()
-    else:
-        print("zero .NEF files found - end process")
+    count_files(script_dir)
+    inp = str(input("want to proceed: [Y/n]"))
+    if inp.lower() == "n" or "no":
         exit()
 
     start = time.perf_counter()
     mem_nef, mem_not = 0, 0
     for file0 in script_dir.iterdir():
         if file0.is_dir():  # ist das Objekt ueberhaupt ein Ordner, wenn es eine Datei ist --> skip
-            (file0 / name_rec_dir).mkdir(exist_ok=True)  # erstellt Ordner, ueberspring, wenn schon existent
+            Path(str(file0) + name_rec_dir).mkdir(exist_ok=True)  # erstellt Ordner, ueberspring, wenn schon existent
             for file1 in file0.iterdir():
                 if file1.suffix.lower() == ".nef":
                     mem_nef = mem_nef + 1  # nef Zaehler
@@ -54,7 +33,10 @@ def main():
     end = time.perf_counter()
 
     # auswertng
-    avr = sum(avr_time) / float(len(avr_time)) if avr_time else 0
+    avr = 0
+    for i in avr_time:
+        avr = avr + i
+    avr = avr / float(len(avr_time))
 
     print(
         "NEF files: ",
@@ -82,7 +64,10 @@ def processing_image(file0, file1, mem_nef):
         )
 
     img = Image.fromarray(rgb)
-    img.save(file0 / name_rec_dir / (file1.stem + ".jpg"), quality=100)
+    img.save(
+        str(file0) + name_rec_dir + str(file1.name)[:-4] + ".jpg",
+        quality=100,
+    )
     end = time.perf_counter()
 
     avr_time.append(end - start)
@@ -93,6 +78,7 @@ def processing_image(file0, file1, mem_nef):
         "    ",
         f"{end - start:.1f}s",
     )
+    # print(str(file0) + name_rec_dir + str(file1.name)[:-4] + ".jpg")
 
 
 def count_files(script_dir):
@@ -107,9 +93,21 @@ def count_files(script_dir):
                     mem_not = mem_not + 1  # non nef Zaehler
     end = time.perf_counter()
 
-    print(f"time: {end - start:.4f}", "s\n", "NEF files: ", mem_nef, "    ", "non NEF files :", mem_not)
-    return mem_nef
+    print("time: ", end - start, "s\n", "NEF files: ", mem_nef, "    ", "non NEF files :", mem_not)
 
 
-if __name__ == "__main__":
+try:
     main()
+except KeyboardInterrupt:
+    exit()
+
+
+# zaehlt alle .NEF dateien auf, fragt dann ob alle convertiert sollen
+# Frage wie der Zeilordner heißen soll
+#
+# Zeit fuer ein picture processing
+#
+# Endstatistik:
+#
+# avarage Zeit fuer ein Bild
+# Gesammt Zeit die es gebraucht hat

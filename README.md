@@ -1,38 +1,38 @@
 # NEF → JPG Converter
 
-Ein Python-Script zur automatischen Konvertierung von Nikon RAW-Dateien (`.nef`) in JPEG-Bilder.
+A Python script for automatically converting Nikon RAW files (`.nef`) to JPEG images.
 
-## Beschreibung
+## Description
 
-Das Script durchsucht alle Unterordner eines angegebenen Verzeichnisses nach `.nef`-Dateien und konvertiert diese in hochwertige JPEGs. Die konvertierten Bilder werden jeweils in einem Unterordner namens `unedit` innerhalb des ursprünglichen Ordners gespeichert.
+The script searches all subdirectories of a given directory for `.nef` files and converts them to high-quality JPEGs. The converted images are saved in a subfolder named `unedit` inside each original folder.
 
 ## Installation
 
-Im Root-Ordner des Projektes:
+From the root of the project:
 
 ```bash
 uv tool install .
 ```
 
-Für eine erneute Installation:
+To reinstall:
 
 ```bash
 uv tool install . --reinstall
 ```
 
-## Verwendung
+## Usage
 
 ```bash
-nef2jpg [Pfad zum Verzeichnis]
+nef2jpg [path to directory]
 ```
 
-Wird kein Pfad angegeben, wird das aktuelle Verzeichnis verwendet:
+If no path is provided, the current directory is used:
 
 ```bash
 nef2jpg
 ```
 
-Die `-h`- oder `--help`-Flag zeigt diese Dokumentation direkt im Terminal an:
+The `-h` or `--help` flag displays this documentation directly in the terminal:
 
 ```bash
 nef2jpg -h
@@ -42,18 +42,18 @@ nef2jpg -h
 nef2jpg --help
 ```
 
-### Beispiel
+### Example
 
 ```bash
-nef2jpg /home/user/fotos
+nef2jpg /home/user/photos
 ```
 
-## Verzeichnisstruktur
+## Directory Structure
 
-Das Script erwartet folgende Struktur als Eingabe:
+The script expects the following input structure:
 
 ```
-fotos/
+photos/
 ├── session_01/
 │   ├── IMG_001.nef
 │   ├── IMG_002.nef
@@ -63,10 +63,10 @@ fotos/
     └── ...
 ```
 
-Nach der Ausführung wird die Struktur wie folgt erweitert:
+After execution the structure is extended as follows:
 
 ```
-fotos/
+photos/
 ├── session_01/
 │   ├── unedit/
 │   │   ├── IMG_001.jpg
@@ -79,29 +79,29 @@ fotos/
     └── IMG_010.nef
 ```
 
-## Ablauf
+## Process
 
-1. Das Script zählt zunächst alle NEF- und Nicht-NEF-Dateien und gibt eine Übersicht aus.
-2. Der Nutzer wird gefragt, ob die Konvertierung gestartet werden soll (`[Y/n]`).
-3. Jede NEF-Datei wird verarbeitet und als JPEG gespeichert.
-4. Am Ende wird eine Zusammenfassung mit Dateianzahl und Zeitstatistiken ausgegeben.
+1. The script counts all NEF and non-NEF files and prints a summary.
+2. The user is asked whether to proceed (`[Y/n]`).
+3. Each NEF file is processed and saved as a JPEG.
+4. A final summary with file counts and timing statistics is printed.
 
-## Konvertierungseinstellungen
+## Conversion Settings
 
-| Parameter | Wert | Beschreibung |
+| Parameter | Value | Description |
 |---|---|---|
-| Weißabgleich | Kamera-WB | Übernimmt den WB der Kamera |
-| Helligkeit | Auto | Automatische Helligkeitsanpassung aktiv |
-| Lichter | Blend (Modus 2) | Beste Lichterwiederherstellung |
-| Gamma | (1.5, 4.5) | sRGB-Gamma |
-| Farbraum | sRGB | Standard-Farbraum |
-| Bittiefe | 8 Bit | Standard JPEG |
-| JPEG-Qualität | 100 | Maximale Qualität |
+| White balance | Camera WB | Uses the camera's white balance |
+| Brightness | Auto | Automatic brightness adjustment enabled |
+| Highlights | Blend (mode 2) | Best highlight recovery |
+| Gamma | (1.5, 4.5) | sRGB gamma |
+| Color space | sRGB | Standard color space |
+| Bit depth | 8 bit | Standard JPEG |
+| JPEG quality | 100 | Maximum quality |
 
-## Ausgabe (Beispiel)
+## Example Output
 
 ```
-Verzeichnis:  /home/user/fotos
+directory:  /home/user/photos
 time: 0.0021 s
 NEF files:  42     non NEF files: 5
 want to proceed [Y/n]: Y
@@ -113,9 +113,9 @@ time: 97.4s
 avrage time: 2.32s
 ```
 
-## Hinweise
+## Notes
 
-- Nur direkte Unterordner des angegebenen Verzeichnisses werden durchsucht (keine rekursive Suche).
-- Bereits vorhandene `unedit`-Ordner werden nicht überschrieben, sondern wiederverwendet.
-- Dateien ohne `.nef`-Endung werden übersprungen und mitgezählt.
+- Only direct subdirectories of the given path are searched (no recursive search).
+- Existing `unedit` folders are reused without being overwritten.
+- Files without a `.nef` extension are skipped and counted.
 - crazy nightcore: `https://www.youtube.com/watch?v=uVoqIP4M9Gg`
