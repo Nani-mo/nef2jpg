@@ -1,0 +1,88 @@
+.TH NEF2JPG 1 "2026-03-25" "0.1.0" "User Commands"
+.SH NAME
+nef2jpg \- convert Nikon NEF RAW files to JPEG
+.SH SYNOPSIS
+.B nef2jpg
+[\fIDIRECTORY\fR]
+.br
+.B nef2jpg
+[\fB\-h\fR | \fB\-\-help\fR]
+.SH DESCRIPTION
+.B nef2jpg
+searches all immediate subdirectories of the given
+.I DIRECTORY
+for Nikon RAW files
+.RB ( .nef )
+and converts them to high-quality JPEG images using camera white balance and sRGB colour settings.
+.PP
+Converted images are placed in a subfolder named
+.B unedit
+inside each subdirectory. If no
+.I DIRECTORY
+is provided, the current working directory is used.
+.PP
+Only one level of subdirectories is searched \(em the tool does not recurse deeper.
+.SH OPTIONS
+.TP
+.BR \-h ", " \-\-help
+Display this documentation in the terminal and exit.
+.SH EXAMPLES
+Convert all NEF files found under
+.IR /home/user/photos :
+.PP
+.nf
+    nef2jpg /home/user/photos
+.fi
+.PP
+Run in the current directory:
+.PP
+.nf
+    nef2jpg
+.fi
+.SH OUTPUT
+Before conversion the tool prints a file count summary and prompts the user to confirm:
+.PP
+.nf
+    directory:  /home/user/photos
+    time: 0.0021 s
+    NEF files:  42     non NEF files: 5
+    want to proceed [Y/n]:
+.fi
+.PP
+Progress is printed for each file, followed by a final summary:
+.PP
+.nf
+    picture prossed [1]:  IMG_001.NEF     2.3s
+    ...
+    NEF files:  42   no NEF files:  5
+    time: 97.4s
+    avrage time: 2.32s
+.fi
+.SH CONVERSION SETTINGS
+.TS
+l l l.
+Parameter	Value	Description
+_
+White balance	Camera WB	Uses the camera's white balance
+Brightness	Auto	Automatic brightness adjustment
+Highlights	Blend (mode 2)	Best highlight recovery
+Gamma	(1.5, 4.5)	sRGB gamma curve
+Colour space	sRGB	Standard colour space
+Bit depth	8 bit	Standard JPEG depth
+JPEG quality	100	Maximum quality
+.TE
+.SH FILES
+.TP
+.I <directory>/<session>/unedit/*.jpg
+Output JPEG files, written alongside the original NEF files.
+.SH NOTES
+Existing
+.B unedit
+folders are reused without being overwritten. Files without a
+.B .nef
+extension are skipped and included in the non-NEF count.
+.SH AUTHOR
+Written by nani.
+.SH SEE ALSO
+.BR rawpy (1),
+.BR convert (1)

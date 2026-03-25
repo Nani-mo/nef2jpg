@@ -1,0 +1,24 @@
+[project]
+name = "raw-to-jpg-py"
+version = "0.1.0"
+description = "Convert NEF raw files to JPEG from the terminal"
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "pillow>=12.1.1",
+    "rawpy>=0.26.1",
+    "rich>=14.3.3",
+]
+[project.scripts]
+nef2jpg = "raw_to_jpg.cli:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/raw_to_jpg"]
+artifacts = [
+    "src/raw_to_jpg/README.md",
+    "src/raw_to_jpg/README.en.md",
+]
