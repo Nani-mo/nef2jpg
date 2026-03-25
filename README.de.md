@@ -8,6 +8,12 @@ Das Script durchsucht alle Unterordner eines angegebenen Verzeichnisses nach `.n
 
 ## Installation
 
+Zuerst uv installieren: bestes Versions und Projektverwaltungs Werkzeug, meiner Meinung nach
+```bash
+pacman -S uv
+apt install uv
+```
+
 Im Root-Ordner des Projektes:
 
 ```bash

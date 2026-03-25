@@ -8,6 +8,12 @@ The script searches all subdirectories of a given directory for `.nef` files and
 
 ## Installation
 
+first install uv: best Version and project control tool in my opinion
+```bash
+pacman -S uv
+apt install uv
+```
+
 From the root of the project:
 
 ```bash
